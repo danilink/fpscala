@@ -31,6 +31,16 @@ object MyModule {
     go(n, 1)
   }
 
+  def isSorted [A] (array: Array[A], gthan: (A, A) => Boolean) : Boolean = {
+    @annotation.tailrec
+    def go(n: Int): Boolean =
+      if (n >= array.length-1) true
+      else if (gthan(array(n), array(n+1))) false
+      else go(n+1)
+
+    go(0)
+  }
+
   def main(args: Array[String]): Unit =
     println(formatAll("abs", -42, abs))
     println(formatAll("fib", 2, fib))
