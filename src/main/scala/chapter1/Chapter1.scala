@@ -41,9 +41,26 @@ object MyModule {
     go(0)
   }
 
+  def binarySearch[A](as: Array[A], key: A, gt: (A,A) => Boolean): Int = {
+    @annotation.tailrec
+    def go(low: Int, mid: Int, high: Int): Int = {
+      if (low > high) -mid - 1
+      else {
+        val mid2 = (low + high) / 2
+        val a = as(mid2)
+        val greater = gt(a, key)
+        if (!greater && !gt(key,a)) mid2
+        else if (greater) go(low, mid2, mid2-1)
+        else go(mid2 + 1, mid2, high)
+      }
+    }
+    go(0, 0, as.length - 1)
+  }
+
   def main(args: Array[String]): Unit =
     println(formatAll("abs", -42, abs))
     println(formatAll("fib", 2, fib))
     //max int number 2147483647
-    println(formatAll("fac", 20, fac))
+    println(formatAll("fac", 10, fac))
+    println(isSorted(Array(50, 9, 6), (a:Int, b:Int) => a < b))
 }
