@@ -57,10 +57,19 @@ object MyModule {
     go(0, 0, as.length - 1)
   }
 
-  def main(args: Array[String]): Unit =
+  def partial1[A,B,C](a: A, f: (A,B) => C): B => C =
+    (b: B) => f(a, b)
+
+  def compose[A,B,C](f: B => C, g: A => B): A => C =
+    a => f(g(a))
+
+  def main(args: Array[String]): Unit = {
     println(formatAll("abs", -42, abs))
     println(formatAll("fib", 2, fib))
     //max int number 2147483647
     println(formatAll("fac", 10, fac))
-    println(isSorted(Array(50, 9, 6), (a:Int, b:Int) => a < b))
+    println(isSorted(Array(9, 8, 7), (a:Int, b:Int) => a < b))
+    partial1(Array(50, 9, 6, 34, 66, 3, 4), (a:Array[Int], b:Int) =>  a)
+  }
+
 }
